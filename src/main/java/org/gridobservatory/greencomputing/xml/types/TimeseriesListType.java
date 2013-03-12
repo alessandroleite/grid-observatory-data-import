@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Alessandro alessandro dot leite at alessandro dot cc
+ * Copyright (C) 2013 Alessandro <alessandro dot leite at alessandro dot cc>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package org.gridobservatory.greencomputing.xml.types;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -49,9 +50,10 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "timeseriesListType", propOrder = {
     "machineTimeseriesOrRoomTimeseriesOrAcquisitionToolAliveTimeseries"
 })
-public class TimeseriesListType {
+public class TimeseriesListType implements Serializable {
 
-    @XmlElements({
+	private static final long serialVersionUID = 6989549174739186655L;
+	@XmlElements({
         @XmlElement(name = "roomTimeseries", type = RoomTimeseriesType.class),
         @XmlElement(name = "machineTimeseries", type = MachineTimeseriesType.class),
         @XmlElement(name = "acquisitionToolAliveTimeseries", type = AcquisitionToolAliveBinaryTimeseriesType.class)

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Alessandro alessandro dot leite at alessandro dot cc
+ * Copyright (C) 2013 Alessandro <alessandro dot leite at alessandro dot cc>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package org.gridobservatory.greencomputing.xml.types;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -52,9 +53,11 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "middlewareType", propOrder = {
     "propertiesList"
 })
-public class MiddlewareType {
+public class MiddlewareType implements Serializable {
 
-    protected PropertiesListType propertiesList;
+	private static final long serialVersionUID = -3697567457209183589L;
+	
+	protected PropertiesListType propertiesList;
     @XmlAttribute(required = true)
     protected BigInteger middlewareID;
     @XmlAttribute

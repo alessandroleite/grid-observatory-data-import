@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Alessandro alessandro dot leite at alessandro dot cc
+ * Copyright (C) 2013 Alessandro <alessandro dot leite at alessandro dot cc>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package org.gridobservatory.greencomputing.xml.types;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,9 +57,11 @@ import javax.xml.bind.annotation.XmlType;
 @XmlSeeAlso({
     AcquisitionToolAliveBinaryTimeseriesType.class
 })
-public class BinaryTimeseriesType {
+public class BinaryTimeseriesType implements Serializable {
 
-    protected List<BinaryTimeseriesTransitionType> transition;
+	private static final long serialVersionUID = 5352325908814056643L;
+	
+	protected List<BinaryTimeseriesTransitionType> transition;
     @XmlAttribute(required = true)
     protected BigInteger startDate;
     @XmlAttribute(required = true)

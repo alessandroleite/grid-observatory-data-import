@@ -1,4 +1,4 @@
-Copyright (C) 2013 Alessandro alessandro dot leite at alessandro dot cc
+Copyright (C) 2013 Alessandro <alessandro dot leite at alessandro dot cc>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -48,6 +48,14 @@
 		</developer>
 	</developers>
 
+	<repositories>
+		<repository>
+			<id>spring-release</id>
+			<name>Spring Maven Release Repository</name>
+			<url>http://repo.springframework.org/release</url>
+		</repository>
+	</repositories>
+
 	<dependencies>
 
 		<!-- Test dependencies -->
@@ -80,6 +88,68 @@
 			<version>${joda-time.version}</version>
 			<scope>compile</scope>
 		</dependency>
+
+		<!-- <dependency> <groupId>nz.ac.waikato.cms.weka</groupId> <artifactId>weka-stable</artifactId> 
+			<version>${weka.version}</version> </dependency> -->
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-hadoop</artifactId>
+			<version>${spring-data-hadoop.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>${commons-dbcp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-connector.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${aspectjrt.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectjweaver.version}</version>
+		</dependency>
+
 
 	</dependencies>
 
@@ -256,6 +326,15 @@
 		<license-header-file>header.txt</license-header-file>
 		<lshw.version>0.4-SNAPSHOT</lshw.version>
 		<joda-time.version>1.6.2</joda-time.version>
-	</properties>
+		<weka.version>3.6.6</weka.version>
+		<spring.version>3.0.5.RELEASE</spring.version>
+		<spring-data-hadoop.version>1.0.0.RELEASE</spring-data-hadoop.version>
+		<commons-dbcp.version>1.4</commons-dbcp.version>
+		<mysql-connector.version>5.1.23</mysql-connector.version>
+		<ajdt.version>1.7.2</ajdt.version>
+		<aspectjrt.version>1.7.1</aspectjrt.version>
+		<aspectjweaver.version>1.7.1</aspectjweaver.version>
+		<aspectjtools.version>1.7.1</aspectjtools.version>
 
+	</properties>
 </project>

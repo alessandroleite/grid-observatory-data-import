@@ -13,5 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.grid-observatory.org", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package org.gridobservatory.greencomputing.xml.types;
+package org.gridobservatory.greencomputing.hadoop;
+import java.io.IOException;
+
+import org.apache.hadoop.io.NullWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+import org.gridobservatory.greencomputing.xml.types.GCOReport;
+
+public class GcoReportParserReducer extends
+		Reducer<NullWritable, GCOReport, NullWritable, Text> {
+
+	@Override
+	protected void reduce(NullWritable key, Iterable<GCOReport> values,
+			Context context) throws IOException, InterruptedException {
+
+		for (GCOReport report : values) {
+			System.out.println(report);
+		}
+	}
+}

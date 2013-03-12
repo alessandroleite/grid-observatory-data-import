@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Alessandro alessandro dot leite at alessandro dot cc
+ * Copyright (C) 2013 Alessandro <alessandro dot leite at alessandro dot cc>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package org.gridobservatory.greencomputing.adapters;
 
 import java.io.File;
 import java.math.BigInteger;
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -44,12 +45,14 @@ import org.xml.sax.SAXException;
 public final class MachinesData {
 
 	public MachinesData(GCOReport report) {
-		loadMachines(report.getMachinesList());
+		
 		loadMiddlewares(report.getMiddlewareList());
 		loadMotherboards(report.getMotherboardsList());
 		loadRooms(report.getRoomsList());
+		
+		loadMachines(report.getMachinesList());
 	}
-	
+
 	public static MachinesData newMachines(JaxbXmlParser<GCOReport> parser,
 			File xml) throws JAXBException, SAXException {
 		return new MachinesData(parser.unmarshal(xml));
@@ -57,7 +60,8 @@ public final class MachinesData {
 
 	public static MachinesData newMachines(File xml) {
 		try {
-			return newMachines(new JaxbXmlParser<GCOReport>(GCOReport.class), xml);
+			return newMachines(new JaxbXmlParser<GCOReport>(GCOReport.class),
+					xml);
 		} catch (JAXBException | SAXException exception) {
 			throw new RuntimeException(exception.getMessage(), exception);
 		}
@@ -71,21 +75,23 @@ public final class MachinesData {
 	 * Returns a {@link Machine} that has a given ID or <code>null</code> if
 	 * there isn't a machine with the given ID.
 	 * 
-	 * @param machineID The ID of the {@link Machine} to be returned.
+	 * @param machineID
+	 *            The ID of the {@link Machine} to be returned.
 	 * @return A {@link Machine} that has a given ID or <code>null</code> if
-	 * there isn't a machine with the given ID.
+	 *         there isn't a machine with the given ID.
 	 */
 	public Machine getMachineByID(BigInteger machineID) {
 		return MACHINES.get(machineID);
 	}
 
 	/**
-	 * Returns a {@link Room} that has a given ID or <code>null</code> if
-	 * there isn't a room with the given ID.
+	 * Returns a {@link Room} that has a given ID or <code>null</code> if there
+	 * isn't a room with the given ID.
 	 * 
-	 * @param roomID The ID of the {@link Room} to be returned.
-	 * @return A {@link Room} that has a given ID or <code>null</code> if
-	 * there isn't a {@link Room} with the given ID.
+	 * @param roomID
+	 *            The ID of the {@link Room} to be returned.
+	 * @return A {@link Room} that has a given ID or <code>null</code> if there
+	 *         isn't a {@link Room} with the given ID.
 	 */
 	public Room getRoomByID(BigInteger roomID) {
 		return ROOMS.get(roomID);
@@ -94,9 +100,11 @@ public final class MachinesData {
 	/**
 	 * Returns a {@link Motherboard} that has a given ID or <code>null</code> if
 	 * it is unknown.
-	 * @param motherboardID The ID of the {@link Motherboard} to be returned.
+	 * 
+	 * @param motherboardID
+	 *            The ID of the {@link Motherboard} to be returned.
 	 * @return A {@link Motherboard} that has a given ID or <code>null</code> if
-	 * it is unknown.
+	 *         it is unknown.
 	 */
 	public Motherboard getMotherboardByID(BigInteger motherboardID) {
 		return MOTHERBOARDS.get(motherboardID);
@@ -117,8 +125,10 @@ public final class MachinesData {
 		for (MachineType machineType : machines.getMachine()) {
 			Machine machine = new Machine(machineType);
 
-			machine.setMiddleware(getMiddlewareByID(machineType.getMiddlewareID()));
-			machine.setMotherboard(getMotherboardByID(machineType.getMotherboardID()));
+			machine.setMiddleware(getMiddlewareByID(machineType
+					.getMiddlewareID()));
+			machine.setMotherboard(getMotherboardByID(machineType
+					.getMotherboardID()));
 			machine.setRoom(getRoomByID(machineType.getRoomID()));
 
 			MACHINES.put(machineType.getMachineID(), machine);
@@ -151,5 +161,21 @@ public final class MachinesData {
 			MIDDLEWARES.put(middlewareType.getMiddlewareID(), new Middleware(
 					middlewareType));
 		}
+	}
+
+	public Collection<Machine> machines() {
+		return MACHINES.values();
+	}
+
+	public Collection<Middleware> middlewares() {
+		return MIDDLEWARES.values();
+	}
+
+	public Collection<Motherboard> motherboards() {
+		return MOTHERBOARDS.values();
+	}
+
+	public Rooms rooms() {
+		return Rooms.newRooms(ROOMS.values());
 	}
 }

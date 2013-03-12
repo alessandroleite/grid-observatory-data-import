@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Alessandro alessandro dot leite at alessandro dot cc
+ * Copyright (C) 2013 Alessandro <alessandro dot leite at alessandro dot cc>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 package org.gridobservatory.greencomputing.xml.types;
+
+import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
@@ -39,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlType(name = "acquisitionToolType")
 @XmlEnum
-public enum AcquisitionToolType {
+public enum AcquisitionToolType implements Serializable {
 
     IPMI("IPMI"),
     @XmlEnumValue("Ganglia")

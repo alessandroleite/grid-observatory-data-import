@@ -13,5 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.grid-observatory.org", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package org.gridobservatory.greencomputing.xml.types;
+package org.gridobservatory.greencomputing.repository;
+
+import javax.annotation.Resource;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+
+public abstract class RepositorySupport extends JdbcTemplate {
+
+	@Resource
+	private JdbcTemplate jdbcTemplate;
+
+	protected JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+}

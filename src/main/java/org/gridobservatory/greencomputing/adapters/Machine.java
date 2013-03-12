@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Alessandro alessandro dot leite at alessandro dot cc
+ * Copyright (C) 2013 Alessandro <alessandro dot leite at alessandro dot cc>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -134,6 +134,10 @@ public class Machine implements Comparable<Machine> {
 	public void setMiddleware(Middleware middleware) {
 		this.middleware = middleware;
 	}
+	
+	public void setDateCreated(BigInteger value) {
+		this.machineType.setDateCreated(value.divide(BigInteger.valueOf(1000L)));
+	}
 
 	public DateTime getDateCreated() {
 		return new DateTime(machineType.getDateCreated().longValue() * 1000l);
@@ -199,4 +203,6 @@ public class Machine implements Comparable<Machine> {
 		return ToStringBuilder.reflectionToString(this,
 				ToStringStyle.SHORT_PREFIX_STYLE);
 	}
+
+
 }

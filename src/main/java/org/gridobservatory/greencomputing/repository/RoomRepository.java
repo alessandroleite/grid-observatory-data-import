@@ -13,5 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.grid-observatory.org", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package org.gridobservatory.greencomputing.xml.types;
+package org.gridobservatory.greencomputing.repository;
+
+import org.gridobservatory.greencomputing.adapters.Room;
+import org.gridobservatory.greencomputing.adapters.Rooms;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class RoomRepository extends RepositorySupport {
+
+
+	public void insert(Room room) {
+		this.getJdbcTemplate().update(
+				"insert into room (room_id, date_created) values (?,?)",
+				room.getRoomID(), room.getDateCreated().toDate());
+	}
+
+	public void insert(Rooms rooms) {
+		for (Room room : rooms) {
+			this.insert(room);
+		}
+	}
+}

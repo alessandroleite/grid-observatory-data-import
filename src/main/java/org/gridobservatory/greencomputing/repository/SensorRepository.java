@@ -13,5 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.grid-observatory.org", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package org.gridobservatory.greencomputing.xml.types;
+package org.gridobservatory.greencomputing.repository;
+
+import org.gridobservatory.greencomputing.xml.types.SensorType;
+import org.springframework.stereotype.Repository;
+
+@Repository("sensorRepository")
+public class SensorRepository extends RepositorySupport {
+
+
+
+	public void insert(SensorType sensor) {
+		this.getJdbcTemplate()
+				.update("insert into sensor (sensor_id, sensor_name, acquisition_tool_type, unit) values (?,?,?,?)",
+						sensor.getSensorID(), sensor.getSensorName(),
+						sensor.getAcquisitionTool().name(), sensor.getUnit());
+	}
+}

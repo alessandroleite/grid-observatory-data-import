@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Alessandro alessandro dot leite at alessandro dot cc
+ * Copyright (C) 2013 Alessandro <alessandro dot leite at alessandro dot cc>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package org.gridobservatory.greencomputing.xml.types;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -45,9 +46,10 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "numericPropertyHistoryType")
-public class NumericPropertyHistoryType {
+public class NumericPropertyHistoryType implements Serializable {
 
-    @XmlAttribute(required = true)
+	private static final long serialVersionUID = -4846031897526793199L;
+	@XmlAttribute(required = true)
     protected float value;
     @XmlAttribute(required = true)
     protected String unit;

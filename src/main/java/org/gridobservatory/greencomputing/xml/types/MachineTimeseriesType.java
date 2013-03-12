@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Alessandro alessandro dot leite at alessandro dot cc
+ * Copyright (C) 2013 Alessandro <alessandro dot leite at alessandro dot cc>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,11 +21,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for machineTimeseriesType complex type.
+ * <p>
+ * Java class for machineTimeseriesType complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="machineTimeseriesType">
@@ -42,60 +44,53 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "machineTimeseriesType")
-public class MachineTimeseriesType
-    extends TimeseriesType
-{
+public class MachineTimeseriesType extends TimeseriesType {
+	
+	private static final long serialVersionUID = 455229656370419000L;
+	@XmlAttribute(required = true)
+	protected BigInteger machineID;
+	@XmlAttribute(required = true)
+	protected BigInteger sensorID;
 
-    @XmlAttribute(required = true)
-    protected BigInteger machineID;
-    @XmlAttribute(required = true)
-    protected BigInteger sensorID;
+	/**
+	 * Gets the value of the machineID property.
+	 * 
+	 * @return possible object is {@link BigInteger }
+	 * 
+	 */
+	public BigInteger getMachineID() {
+		return machineID;
+	}
 
-    /**
-     * Gets the value of the machineID property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getMachineID() {
-        return machineID;
-    }
+	/**
+	 * Sets the value of the machineID property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link BigInteger }
+	 * 
+	 */
+	public void setMachineID(BigInteger value) {
+		this.machineID = value;
+	}
 
-    /**
-     * Sets the value of the machineID property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setMachineID(BigInteger value) {
-        this.machineID = value;
-    }
+	/**
+	 * Gets the value of the sensorID property.
+	 * 
+	 * @return possible object is {@link BigInteger }
+	 * 
+	 */
+	public BigInteger getSensorID() {
+		return sensorID;
+	}
 
-    /**
-     * Gets the value of the sensorID property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getSensorID() {
-        return sensorID;
-    }
-
-    /**
-     * Sets the value of the sensorID property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setSensorID(BigInteger value) {
-        this.sensorID = value;
-    }
+	/**
+	 * Sets the value of the sensorID property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link BigInteger }
+	 * 
+	 */
+	public void setSensorID(BigInteger value) {
+		this.sensorID = value;
+	}
 }

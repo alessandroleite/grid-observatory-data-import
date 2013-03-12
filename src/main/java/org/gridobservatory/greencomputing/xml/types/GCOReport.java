@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Alessandro alessandro dot leite at alessandro dot cc
+ * Copyright (C) 2013 Alessandro <alessandro dot leite at alessandro dot cc>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 package org.gridobservatory.greencomputing.xml.types;
+
+import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -53,9 +55,11 @@ import javax.xml.bind.annotation.XmlType;
     "timeseriesList"
 })
 @XmlRootElement(name = "GCO-report")
-public class GCOReport {
+public class GCOReport  implements Serializable {
 
-    protected RoomsListType roomsList;
+	private static final long serialVersionUID = 3714722582293091898L;
+	
+	protected RoomsListType roomsList;
     protected MachinesListType machinesList;
     protected MotherboardsListType motherboardsList;
     protected MiddlewareListType middlewareList;

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Alessandro alessandro dot leite at alessandro dot cc
+ * Copyright (C) 2013 Alessandro <alessandro dot leite at alessandro dot cc>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package org.gridobservatory.greencomputing.xml.types;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -45,9 +46,10 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "machineSensorsListType", propOrder = {
     "sensor"
 })
-public class MachineSensorsListType {
+public class MachineSensorsListType implements Serializable {
 
-    protected List<SensorType> sensor;
+	private static final long serialVersionUID = 8388577275550387775L;
+	protected List<SensorType> sensor;
 
     /**
      * Gets the value of the sensor property.
