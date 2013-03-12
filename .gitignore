@@ -1,0 +1,9 @@
+bin/
+data/
+.classpath
+.settings/
+.project
+*~
+dist/
+target/
+
