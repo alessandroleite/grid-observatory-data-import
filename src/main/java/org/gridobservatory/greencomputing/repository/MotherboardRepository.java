@@ -15,37 +15,11 @@
  */
 package org.gridobservatory.greencomputing.repository;
 
-import java.util.Collection;
-
 import org.gridobservatory.greencomputing.adapters.Motherboard;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public class MotherboardRepository extends RepositorySupport {
+public interface MotherboardRepository {
 
-	
+	void insert(Motherboard motherboard);
 
-	public void insert(Motherboard motherboard) {
-
-		this.getJdbcTemplate()
-				.update("insert into motherboard (motherboard_id, product_manufacturer, product_name, port_number, "
-						+ " board_serial, board_manufacturing, board_product, manufacturing_date, date_from) "
-						+ " values (?,?,?,?,?,?,?,?,?)",
-
-				motherboard.getMotherboardID(),
-						motherboard.getProductManufacturer(),
-						motherboard.getProductName(),
-						motherboard.getPartNumber(),
-						motherboard.getBoardSerial(),
-						motherboard.getBoardManufacturing(),
-						motherboard.getBoardProduct(),
-						motherboard.getManufacturingDate(),
-						motherboard.getDateFrom() != null ? motherboard.getDateFrom().toDate() : null);
-	}
-
-	public void insert(Collection<Motherboard> motherboards) {
-		for (Motherboard motherboard : motherboards) {
-			this.insert(motherboard);
-		}
-	}
+	void insert(Iterable<Motherboard> motherboards);
 }

@@ -16,17 +16,10 @@
 package org.gridobservatory.greencomputing.repository;
 
 import org.gridobservatory.greencomputing.xml.types.SensorType;
-import org.springframework.stereotype.Repository;
 
-@Repository("sensorRepository")
-public class SensorRepository extends RepositorySupport {
+public interface SensorRepository {
 
+	void insert(SensorType sensorType);
 
-
-	public void insert(SensorType sensor) {
-		this.getJdbcTemplate()
-				.update("insert into sensor (sensor_id, sensor_name, acquisition_tool_type, unit) values (?,?,?,?)",
-						sensor.getSensorID(), sensor.getSensorName(),
-						sensor.getAcquisitionTool().name(), sensor.getUnit());
-	}
+	void insert(Iterable<SensorType> sensors);
 }

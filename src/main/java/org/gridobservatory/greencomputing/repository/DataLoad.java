@@ -16,28 +16,83 @@
 package org.gridobservatory.greencomputing.repository;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+import org.gridobservatory.greencomputing.adapters.Machine;
+import org.gridobservatory.greencomputing.adapters.Machines;
 import org.gridobservatory.greencomputing.adapters.MachinesData;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.gridobservatory.greencomputing.adapters.Rooms;
+import org.gridobservatory.greencomputing.xml.types.SensorType;
 
 public class DataLoad {
 
-	public static void main(String[] args) {
-		ApplicationContext context = new ClassPathXmlApplicationContext(
-				new String[] { "/config/spring/application.xml" });
-
+	public static void main(String[] args) throws InterruptedException {
 		MachinesData data = MachinesData.newMachines(new File(
 				"/home/alessandro/workspace/grid-observatory-power-analysis/"
 						+ "data/2012-03-05_2012-03-11/machines.xml"));
 
-//		context.getBean(SensorRepository.class);
-//
-//		context.getBean(RoomRepository.class).insert(data.rooms());
-//
-//		context.getBean(MiddlewareRepository.class).insert(data.middlewares());
+		final Machines machines = data.machines();
+		final Rooms rooms = data.rooms();
+		
+		final SensorRepository sensorRepository = RepositoryFactory.getSensorRepository();
 
-		context.getBean(MotherboardRepository.class).insert(data.motherboards());
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				ExecutorService executor = Executors.newFixedThreadPool(100);
 
+				Collection<SensorType> sensors = new ArrayList<>(machines.sensors());
+				sensors.addAll(rooms.sensors());
+
+				Collection<Callable<Void>> callables = new ArrayList<>();
+
+				for (final SensorType sensor : sensors) {
+					callables.add(new Callable<Void>() {
+						@Override
+						public Void call() throws Exception {
+							sensorRepository.insert(sensor);
+							return null;
+						}
+					});
+				}
+
+				try {
+					executor.invokeAll(callables);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+
+//		RepositoryFactory.getRoomRepository().insert(rooms);
+//		RepositoryFactory.getMiddlewareRepository().insert(data.middlewares());
+//		RepositoryFactory.getMotherboardRepository().insert(data.motherboards());
+		
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Collection<Callable<Void>> machineCallables = new ArrayList<>();
+				
+				final MachineRepository machineRepository = RepositoryFactory.getMachineRepository();
+				for(final Machine machine: machines) {
+					machineCallables.add(new Callable<Void>() {
+						@Override
+						public Void call() throws Exception {
+							machineRepository.insert(machine);
+							return null;
+						}
+					});
+				}
+				try {
+					Executors.newFixedThreadPool(100).invokeAll(machineCallables);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
 	}
 }

@@ -29,7 +29,6 @@ public class GcoReportParserReducer extends
 			Context context) throws IOException, InterruptedException {
 
 		for (GCOReport report : values) {
-			System.out.println(report);
 		}
 	}
 }

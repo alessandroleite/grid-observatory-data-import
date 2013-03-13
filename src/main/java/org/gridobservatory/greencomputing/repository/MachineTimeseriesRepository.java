@@ -15,20 +15,14 @@
  */
 package org.gridobservatory.greencomputing.repository;
 
-import javax.annotation.Resource;
+import java.math.BigInteger;
 
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.gridobservatory.greencomputing.xml.types.MachineTimeseriesType;
 
-public abstract class RepositorySupport extends JdbcTemplate {
+public interface MachineTimeseriesRepository {
+	
+	BigInteger insert(MachineTimeseriesType machineTimeseriesType);
 
-	@Resource
-	private JdbcTemplate jdbcTemplate;
+	void insert(Iterable<MachineTimeseriesType> timeseries);
 
-	protected JdbcTemplate getJdbcTemplate() {
-		return jdbcTemplate;
-	}
-
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
 }

@@ -13,17 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gridobservatory.greencomputing.repository;
+package org.gridobservatory.greencomputing.dao;
 
-import java.math.BigInteger;
+import javax.annotation.Resource;
 
-import org.gridobservatory.greencomputing.adapters.Machine;
+import org.springframework.jdbc.core.JdbcTemplate;
 
-public interface MachineRepository {
+public abstract class DaoSupport extends JdbcTemplate {
 
-	void insert(Machine machine);
+	@Resource
+	private JdbcTemplate jdbcTemplate;
 
-	void insert(Iterable<Machine> machines);
-	
-	Machine findById(BigInteger id);
+	protected JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
 }

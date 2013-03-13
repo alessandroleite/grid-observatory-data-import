@@ -15,29 +15,11 @@
  */
 package org.gridobservatory.greencomputing.repository;
 
-import java.util.Collection;
-
 import org.gridobservatory.greencomputing.adapters.Middleware;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public class MiddlewareRepository extends RepositorySupport {
+public interface MiddlewareRepository {
 
-	public void insert(Middleware middleware) {
+	void insert(Middleware sensor);
 
-		this.getJdbcTemplate()
-				.update("insert into middleware (middleware_id,middleware_type,product_name,product_version,kernel_name,kernel_version,arch) values (?,?,?,?,?,?,?)",
-						middleware.getMiddlewareID(),
-						middleware.getMiddlewareType().name(),
-						middleware.getProductName(),
-						middleware.getProductVersion(),
-						middleware.getKernelName(),
-						middleware.getKernelVersion(), middleware.getArch());
-	}
-
-	public void insert(Collection<Middleware> middlewares) {
-		for (Middleware middleware : middlewares) {
-			this.insert(middleware);
-		}
-	}
+	void insert(Iterable<Middleware> middlewares);
 }

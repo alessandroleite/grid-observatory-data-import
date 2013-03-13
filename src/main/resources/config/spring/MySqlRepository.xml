@@ -100,7 +100,7 @@
 		</property>
 		<property name="beanNames">
 			<list>
-				<value>*Repositories</value>
+				<value>*Repository</value>
 			</list>
 		</property>
 	</bean>

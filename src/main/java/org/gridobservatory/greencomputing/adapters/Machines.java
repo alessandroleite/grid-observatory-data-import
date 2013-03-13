@@ -27,46 +27,49 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.gridobservatory.greencomputing.xml.types.SensorType;
 
-public class Rooms implements Iterable<Room> {
+public class Machines implements Iterable<Machine> {
 
-	private final Map<BigInteger, Room> rooms = new ConcurrentHashMap<>();
+	private final Map<BigInteger, Machine> machines = new ConcurrentHashMap<>();
 
-	public Rooms(Room... rooms) {
-		this(rooms == null ? Collections.<Room> emptyList() : Arrays.asList(rooms));
+	public Collection<Machine> values() {
+		return Collections.unmodifiableCollection(this.machines.values());
 	}
 
-	public Rooms(Collection<Room> rooms) {
-		for (Room room : rooms) {
-			this.rooms.put(Objects.requireNonNull(room.getRoomID()), room);
+	public Machines(Machine... machines) {
+		this(machines != null ? Arrays.asList(machines) : Collections
+				.<Machine> emptyList());
+	}
+
+	public Machines(Collection<Machine> machines) {
+		for (Machine machine : machines) {
+			this.machines.put(Objects.requireNonNull(machine.getMachineID()),
+					machine);
 		}
 	}
 
-	public Rooms(Map<BigInteger, Room> rooms) {
-		this(rooms.values());
-	}
-
-	public static Rooms newRooms(Collection<Room> rooms) {
-		return new Rooms(rooms);
-	}
-
-	public Collection<Room> values() {
-		return Collections.unmodifiableCollection(rooms.values());
+	public Machines(Map<BigInteger, Machine> machines) {
+		this(machines.values());
 	}
 
 	public Collection<SensorType> sensors() {
 		Map<BigInteger, SensorType> sensors = new HashMap<>();
 
-		for (Room room : rooms.values()) {
-			for (SensorType sensor : room.getSensors()) {
+		for (Machine machine : machines.values()) {
+			for (SensorType sensor : machine.getSensors()) {
 				sensors.put(sensor.getSensorID(), sensor);
 			}
 		}
-		
+
 		return Collections.unmodifiableCollection(sensors.values());
 	}
-	
+
 	@Override
-	public Iterator<Room> iterator() {
-		return values().iterator();
+	public Iterator<Machine> iterator() {
+		return this.values().iterator();
 	}
+
+	public static Machines newMachines(Collection<Machine> machines) {
+		return new Machines(machines);
+	}
+
 }

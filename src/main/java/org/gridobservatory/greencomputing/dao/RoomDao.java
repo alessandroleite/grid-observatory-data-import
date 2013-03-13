@@ -13,13 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gridobservatory.greencomputing.repository;
+package org.gridobservatory.greencomputing.dao;
+
+import java.util.Collections;
 
 import org.gridobservatory.greencomputing.adapters.Room;
+import org.gridobservatory.greencomputing.repository.RoomRepository;
+import org.springframework.stereotype.Repository;
 
-public interface RoomRepository {
+@Repository
+public class RoomDao extends DaoSupport implements RoomRepository {
 
-	void insert(Room sensorType);
+	public void insert(Room room) {
+		this.insert(Collections.singleton(room));
+	}
 
-	void insert(Iterable<Room> rooms);
+	public void insert(Iterable<Room> rooms) {
+		for (Room room : rooms) {
+			this.getJdbcTemplate().update(
+					"insert into room (room_id, date_created) values (?,?)",
+					room.getRoomID(), room.getDateCreated().toDate());
+		}
+	}
 }

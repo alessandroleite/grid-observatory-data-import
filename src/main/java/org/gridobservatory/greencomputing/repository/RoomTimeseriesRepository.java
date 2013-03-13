@@ -17,13 +17,12 @@ package org.gridobservatory.greencomputing.repository;
 
 import java.math.BigInteger;
 
-import org.gridobservatory.greencomputing.adapters.Machine;
+import org.gridobservatory.greencomputing.xml.types.RoomTimeseriesType;
 
-public interface MachineRepository {
-
-	void insert(Machine machine);
-
-	void insert(Iterable<Machine> machines);
+public interface RoomTimeseriesRepository {
 	
-	Machine findById(BigInteger id);
+	BigInteger insert(RoomTimeseriesType roomTimeseriesType);
+
+	void insert(Iterable<RoomTimeseriesType> timeseries);
+
 }

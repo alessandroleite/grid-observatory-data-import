@@ -18,6 +18,7 @@ package org.gridobservatory.greencomputing.adapters;
 import java.io.File;
 import java.math.BigInteger;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -45,11 +46,11 @@ import org.xml.sax.SAXException;
 public final class MachinesData {
 
 	public MachinesData(GCOReport report) {
-		
+
 		loadMiddlewares(report.getMiddlewareList());
 		loadMotherboards(report.getMotherboardsList());
 		loadRooms(report.getRoomsList());
-		
+
 		loadMachines(report.getMachinesList());
 	}
 
@@ -163,16 +164,16 @@ public final class MachinesData {
 		}
 	}
 
-	public Collection<Machine> machines() {
-		return MACHINES.values();
+	public Machines machines() {
+		return Machines.newMachines(MACHINES.values());
 	}
 
 	public Collection<Middleware> middlewares() {
-		return MIDDLEWARES.values();
+		return Collections.unmodifiableCollection(MIDDLEWARES.values());
 	}
 
 	public Collection<Motherboard> motherboards() {
-		return MOTHERBOARDS.values();
+		return Collections.unmodifiableCollection(MOTHERBOARDS.values());
 	}
 
 	public Rooms rooms() {
