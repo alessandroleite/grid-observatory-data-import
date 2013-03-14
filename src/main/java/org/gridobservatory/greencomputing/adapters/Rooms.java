@@ -53,7 +53,7 @@ public class Rooms implements Iterable<Room> {
 		return Collections.unmodifiableCollection(rooms.values());
 	}
 
-	public Collection<SensorType> sensors() {
+	public Sensors sensors() {
 		Map<BigInteger, SensorType> sensors = new HashMap<>();
 
 		for (Room room : rooms.values()) {
@@ -62,9 +62,9 @@ public class Rooms implements Iterable<Room> {
 			}
 		}
 		
-		return Collections.unmodifiableCollection(sensors.values());
+		return Sensors.newSensors(sensors);
 	}
-	
+		
 	@Override
 	public Iterator<Room> iterator() {
 		return values().iterator();

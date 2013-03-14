@@ -15,30 +15,86 @@
  */
 package org.gridobservatory.greencomputing.dao;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+import org.gridobservatory.greencomputing.xml.types.TimeseriesAcquisitionType;
 import org.gridobservatory.greencomputing.xml.types.TimeseriesType;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 public abstract class TimeseriesDao<T extends TimeseriesType> extends DaoSupport {
+	
+	private ExecutorService executor = Executors.newCachedThreadPool();
 
 	public BigInteger insert(T timeseriesType) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
-		this.getJdbcTemplate()
-				.update("insert into time_series (constant_value,start_date,end_date,acquisition_count ) values (?,?,?,?,?)",
-						timeseriesType.getConstantValue().getValue(),
-						new Date(
-								timeseriesType.getStartDate().longValue() * 1000),
-						new Date(timeseriesType.getEndDate().longValue() * 1000),
-						timeseriesType.getAcquisitionCount());
-		return BigInteger.valueOf(keyHolder.getKey().longValue());
-	}
 
-	public void insert(Iterable<T> timeseries) {
+		PreparedStatementCreatorFactory preparedStatementCreatorFactory = new PreparedStatementCreatorFactory(
+				"insert into time_series (constant_value,start_date,end_date,acquisition_count ) "
+						+ "values (?, ?, ?, ?)", new int[] { Types.VARCHAR,
+						Types.TIMESTAMP, Types.TIMESTAMP, Types.BIGINT });
+
+		PreparedStatementCreator newPreparedStatementCreator = preparedStatementCreatorFactory
+				.newPreparedStatementCreator(
+				new Object[] 
+				{
+						timeseriesType.getConstantValue() != null ? timeseriesType.getConstantValue().getValue() : "",
+						new Date(timeseriesType.getStartDate().longValue() * 1000),
+						new Date(timeseriesType.getEndDate().longValue() * 1000),
+						timeseriesType.getAcquisitionCount() 
+				});
+
+		preparedStatementCreatorFactory.setReturnGeneratedKeys(true);
+		this.getJdbcTemplate().update(newPreparedStatementCreator, keyHolder);
+		BigInteger timeSeriesId = BigInteger.valueOf(keyHolder.getKey().longValue());
+		
+		insertTimeSeriesAcquisitions(timeSeriesId, timeseriesType.getA());
+		
+		return timeSeriesId;
+	}
+	
+	public List<BigInteger> insert(Iterable<T> timeseries) {
+		List<BigInteger> ids = new ArrayList<>();
 		for (T timeseriesType : timeseries) {
-			this.insert(timeseriesType);
+			ids.add(this.insert(timeseriesType));
 		}
+		return ids;
+	}
+	
+	protected void insertTimeSeriesAcquisitions(final BigInteger timeSeriesId, final List<TimeseriesAcquisitionType> acquisitions) {
+		executor.submit(new Runnable() {
+			@Override
+			public void run() {
+				if (acquisitions != null) {
+					getJdbcTemplate().batchUpdate("insert into time_series_acquisition (time_series_id, ts, value) values (?,?,?)",
+									new BatchPreparedStatementSetter() {
+						
+										@Override
+										public void setValues(PreparedStatement ps, int i)throws SQLException {
+											ps.setLong(1, timeSeriesId.longValue());
+											ps.setBigDecimal(2, new BigDecimal(acquisitions.get(i).getTs()));
+											ps.setString(3, acquisitions.get(i).getV());
+										}
+
+										@Override
+										public int getBatchSize() {
+											return acquisitions.size();
+										}
+									});
+				}
+			}
+		});
 	}
 }

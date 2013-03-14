@@ -16,6 +16,8 @@
 package org.gridobservatory.greencomputing.dao;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.gridobservatory.greencomputing.repository.MachineTimeseriesRepository;
 import org.gridobservatory.greencomputing.xml.types.MachineTimeseriesType;
@@ -36,9 +38,11 @@ public class MachineTimeseriesDao extends TimeseriesDao<MachineTimeseriesType>
 	}
 
 	@Override
-	public void insert(Iterable<MachineTimeseriesType> timeseries) {
+	public List<BigInteger> insert(Iterable<MachineTimeseriesType> timeseries) {
+		List<BigInteger> ids = new ArrayList<>();
 		for (MachineTimeseriesType machineTimeseriesType : timeseries) {
-			this.insert(machineTimeseriesType);
+			ids.add(this.insert(machineTimeseriesType));
 		}
+		return ids;
 	}
 }

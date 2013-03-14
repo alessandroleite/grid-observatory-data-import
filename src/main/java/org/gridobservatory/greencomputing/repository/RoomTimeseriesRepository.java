@@ -16,6 +16,7 @@
 package org.gridobservatory.greencomputing.repository;
 
 import java.math.BigInteger;
+import java.util.List;
 
 import org.gridobservatory.greencomputing.xml.types.RoomTimeseriesType;
 
@@ -23,6 +24,6 @@ public interface RoomTimeseriesRepository {
 	
 	BigInteger insert(RoomTimeseriesType roomTimeseriesType);
 
-	void insert(Iterable<RoomTimeseriesType> timeseries);
+	List<BigInteger> insert(Iterable<RoomTimeseriesType> timeseries);
 
 }

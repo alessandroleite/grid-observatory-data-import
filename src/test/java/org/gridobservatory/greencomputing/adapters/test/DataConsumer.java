@@ -63,8 +63,7 @@ public class DataConsumer {
 
 	private void parser(File file) {
 		try {
-			TimeseriesListType timeseriesList = parser.unmarshal(file)
-					.getTimeseriesList();
+			TimeseriesListType timeseriesList = parser.unmarshal(file).getTimeseriesList();
 
 			List<Object> machineTimeseriesOrRoomTimeseriesOrAcquisitionToolAliveTimeseries = timeseriesList
 					.getMachineTimeseriesOrRoomTimeseriesOrAcquisitionToolAliveTimeseries();

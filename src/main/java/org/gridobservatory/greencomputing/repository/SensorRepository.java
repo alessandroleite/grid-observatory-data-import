@@ -15,6 +15,9 @@
  */
 package org.gridobservatory.greencomputing.repository;
 
+import java.math.BigInteger;
+import java.util.Collection;
+
 import org.gridobservatory.greencomputing.xml.types.SensorType;
 
 public interface SensorRepository {
@@ -22,4 +25,6 @@ public interface SensorRepository {
 	void insert(SensorType sensorType);
 
 	void insert(Iterable<SensorType> sensors);
+	
+	Collection<BigInteger> getAllSensorsID();
 }

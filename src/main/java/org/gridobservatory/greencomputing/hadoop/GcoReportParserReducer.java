@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 package org.gridobservatory.greencomputing.hadoop;
+
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.gridobservatory.greencomputing.repository.RepositoryFactory;
+import org.gridobservatory.greencomputing.xml.types.AcquisitionToolAliveBinaryTimeseriesType;
 import org.gridobservatory.greencomputing.xml.types.GCOReport;
+import org.gridobservatory.greencomputing.xml.types.MachineTimeseriesType;
+import org.gridobservatory.greencomputing.xml.types.RoomTimeseriesType;
+import org.gridobservatory.greencomputing.xml.types.TimeseriesListType;
 
 public class GcoReportParserReducer extends
 		Reducer<NullWritable, GCOReport, NullWritable, Text> {
@@ -29,6 +36,39 @@ public class GcoReportParserReducer extends
 			Context context) throws IOException, InterruptedException {
 
 		for (GCOReport report : values) {
+			process(report);
 		}
+	}
+
+	private void process(GCOReport report) {
+		TimeseriesListType timeseriesList = report.getTimeseriesList();
+
+		List<Object> machineTimeseriesOrRoomTimeseriesOrAcquisitionToolAliveTimeseries = timeseriesList
+				.getMachineTimeseriesOrRoomTimeseriesOrAcquisitionToolAliveTimeseries();
+
+		for (Object obj : machineTimeseriesOrRoomTimeseriesOrAcquisitionToolAliveTimeseries) {
+
+			if (obj instanceof MachineTimeseriesType) {
+				machineTimeSeries((MachineTimeseriesType) obj);
+			} else if (obj instanceof AcquisitionToolAliveBinaryTimeseriesType) {
+				binaryTimeseriesType((AcquisitionToolAliveBinaryTimeseriesType) obj);
+			} else if (obj instanceof RoomTimeseriesType) {
+				roomTimeSeries((RoomTimeseriesType) obj);
+			} else {
+				System.out.println(obj.getClass());
+			}
+		}
+	}
+
+	private void binaryTimeseriesType(
+			AcquisitionToolAliveBinaryTimeseriesType obj) {
+	}
+
+	private void machineTimeSeries(MachineTimeseriesType machineTimeseriesType) {
+		RepositoryFactory.getMachineTimeseriesRepository().insert(machineTimeseriesType);
+	}
+
+	private void roomTimeSeries(RoomTimeseriesType roomTimeseriesType) {
+		RepositoryFactory.getRoomTimeseriesRepository().insert(roomTimeseriesType);
 	}
 }

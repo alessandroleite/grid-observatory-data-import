@@ -16,6 +16,7 @@
 package org.gridobservatory.greencomputing.repository;
 
 import java.math.BigInteger;
+import java.util.List;
 
 import org.gridobservatory.greencomputing.xml.types.MachineTimeseriesType;
 
@@ -23,6 +24,5 @@ public interface MachineTimeseriesRepository {
 	
 	BigInteger insert(MachineTimeseriesType machineTimeseriesType);
 
-	void insert(Iterable<MachineTimeseriesType> timeseries);
-
+	List<BigInteger> insert(Iterable<MachineTimeseriesType> timeseries);
 }

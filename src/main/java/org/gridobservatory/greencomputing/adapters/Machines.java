@@ -42,8 +42,7 @@ public class Machines implements Iterable<Machine> {
 
 	public Machines(Collection<Machine> machines) {
 		for (Machine machine : machines) {
-			this.machines.put(Objects.requireNonNull(machine.getMachineID()),
-					machine);
+			this.machines.put(Objects.requireNonNull(machine.getMachineID()), machine);
 		}
 	}
 
@@ -51,7 +50,8 @@ public class Machines implements Iterable<Machine> {
 		this(machines.values());
 	}
 
-	public Collection<SensorType> sensors() {
+	public Sensors sensors() {
+		
 		Map<BigInteger, SensorType> sensors = new HashMap<>();
 
 		for (Machine machine : machines.values()) {
@@ -59,8 +59,7 @@ public class Machines implements Iterable<Machine> {
 				sensors.put(sensor.getSensorID(), sensor);
 			}
 		}
-
-		return Collections.unmodifiableCollection(sensors.values());
+		return Sensors.newSensors(sensors);
 	}
 
 	@Override

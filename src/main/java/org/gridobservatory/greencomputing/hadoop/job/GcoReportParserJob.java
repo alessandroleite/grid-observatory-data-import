@@ -39,7 +39,7 @@ public final class GcoReportParserJob {
 	static final String XML_START = "<GCO-report xmlns=\"http://www.grid-observatory.org\" xmlns:xi=\"http://www.w3.org/2001/XInclude\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.grid-observatory.org greencomputing.xsd\">";
 	static final String XML_END = "</GCO-report>";
 
-	public static void runJob(String input, String output) throws IOException {
+	public void runJob(String input, String output) throws IOException {
 
 		Configuration conf = new Configuration();
 
@@ -62,6 +62,8 @@ public final class GcoReportParserJob {
 		job.setOutputKeyClass(NullWritable.class);
 
 		job.setOutputValueClass(GCOReport.class);
+		
+		job.setNumReduceTasks(10);
 
 		Path outPath = new Path(output);
 		FileOutputFormat.setOutputPath(job, outPath);

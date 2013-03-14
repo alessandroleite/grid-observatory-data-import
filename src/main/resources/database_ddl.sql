@@ -76,6 +76,16 @@ create table time_series (
  
  -- insert into time_series (time_series_id, constant_value,start_date,end_date,acquisition_count ) values (?,?,?,?,?)
  
+ create table time_series_acquisition (
+  time_series_acquisition bigint unsigned not null auto_increment primary key,
+  time_series_id bigint unsigned not null references time_series (time_series_id),
+  ts bigint not null, 
+  value varchar(160) not null
+ );
+
+ 
+ -- insert into time_series_acquisition (time_series_id, ts, value) values (?,?,?)
+ 
  create table machine_time_series (
    time_series_id bigint unsigned not null primary key references time_series (time_series_id),
    machine_id bigint unsigned not null references machine (machine_id),
@@ -91,3 +101,42 @@ create table time_series (
  );
  
  -- insert into room_time_series (time_series_id, room_id, sensor_id) values (?, ?, ?)
+ 
+ -----------------------------
+ --         Views			--
+ -----------------------------
+ create or replace view vw_machine as 
+ 	select 	
+ 			m.machine_id, 
+    	   	m.room_id, 
+       		m.motherboard_id, mb.product_manufacturer, mb.product_name,
+       		m.middleware_id, mw.middleware_type, mw.product_name as middleware_name, mw.product_version, mw.kernel_name, mw.kernel_version, mw.arch,
+       		m.date_created, m.date_retired
+	from machine m
+  		join room r on r.room_id = m.room_id
+  		join motherboard mb on mb.motherboard_id = m.motherboard_id
+  		join middleware mw on mw.middleware_id = m.middleware_id
+  	order by m.machine_id
+
+create or replace view vw_machine_time_series as
+  	select 
+  		mts.time_series_id, mts.machine_id, mts.sensor_id,
+  		ts.constant_value, ts.start_date, ts.end_date, ts.acquisition_count,  			
+  		s.sensor_name, s.acquisition_tool_type, s.unit
+  	from machine_time_series mts
+  		join time_series ts on ts.time_series_id = mts.time_series_id
+  		join sensor s on s.sensor_id = mts.sensor_id
+  	order by machine_id
+
+
+create or replace view vw_room_time_series as
+  	select 
+  		rts.time_series_id, rts.room_id, rts.sensor_id,
+  		ts.constant_value, ts.start_date, ts.end_date, ts.acquisition_count,  			
+  		s.sensor_name, s.acquisition_tool_type, s.unit
+  	from room_time_series rts
+  		join time_series ts on ts.time_series_id = rts.time_series_id
+  		join sensor s on s.sensor_id = rts.sensor_id
+  	order by room_id  	
+  	
+  	

@@ -83,7 +83,9 @@ public class MachineDao extends DaoSupport implements MachineRepository {
 							machine.getRoom().getRoomID(),
 							machine.getMotherboard().getMotherboardID(),
 							machine.getMiddleware().getMiddlewareID(),
-							machine.getDateCreated(), machine.getDateRetired());
+							machine.getDateCreated().toDate(),
+							machine.getDateRetired() != null ? machine
+									.getDateRetired().toDate() : null);
 		}
 	}
 }

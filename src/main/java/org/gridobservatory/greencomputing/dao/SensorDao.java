@@ -15,6 +15,8 @@
  */
 package org.gridobservatory.greencomputing.dao;
 
+import java.math.BigInteger;
+import java.util.Collection;
 import java.util.Collections;
 
 import org.gridobservatory.greencomputing.repository.SensorRepository;
@@ -38,5 +40,10 @@ public class SensorDao extends DaoSupport implements SensorRepository {
 							sensor.getAcquisitionTool().name(),
 							sensor.getUnit());
 		}
+	}
+
+	@Override
+	public Collection<BigInteger> getAllSensorsID() {
+		return this.getJdbcTemplate().queryForList("select sensor_id from sensor order by sensor_id asc", BigInteger.class);
 	}
 }
