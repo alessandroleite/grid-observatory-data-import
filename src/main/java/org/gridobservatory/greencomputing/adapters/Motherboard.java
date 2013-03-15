@@ -22,7 +22,7 @@ import org.gridobservatory.greencomputing.xml.types.MotherboardType;
 import org.gridobservatory.greencomputing.xml.types.PropertiesListType;
 import org.joda.time.DateTime;
 
-public class Motherboard implements Comparable<Motherboard> {
+public final class Motherboard implements Comparable<Motherboard> {
 
 	protected final MotherboardType motherboardTypeAdapter;
 

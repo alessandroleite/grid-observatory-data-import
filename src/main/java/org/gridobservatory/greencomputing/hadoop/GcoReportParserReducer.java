@@ -18,9 +18,12 @@ package org.gridobservatory.greencomputing.hadoop;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.log4j.Logger;
 import org.gridobservatory.greencomputing.repository.RepositoryFactory;
 import org.gridobservatory.greencomputing.xml.types.AcquisitionToolAliveBinaryTimeseriesType;
 import org.gridobservatory.greencomputing.xml.types.GCOReport;
@@ -30,6 +33,8 @@ import org.gridobservatory.greencomputing.xml.types.TimeseriesListType;
 
 public class GcoReportParserReducer extends
 		Reducer<NullWritable, GCOReport, NullWritable, Text> {
+	
+	private static final transient Logger log = Logger.getLogger(GcoReportParserReducer.class.getName());
 
 	@Override
 	protected void reduce(NullWritable key, Iterable<GCOReport> values,
@@ -55,13 +60,14 @@ public class GcoReportParserReducer extends
 			} else if (obj instanceof RoomTimeseriesType) {
 				roomTimeSeries((RoomTimeseriesType) obj);
 			} else {
-				System.out.println(obj.getClass());
+				log.debug("Unknown timeseries type " + obj.getClass());
 			}
 		}
 	}
 
 	private void binaryTimeseriesType(
 			AcquisitionToolAliveBinaryTimeseriesType obj) {
+		log.debug("Binary timeseries type " + ToStringBuilder.reflectionToString(obj, ToStringStyle.SHORT_PREFIX_STYLE));
 	}
 
 	private void machineTimeSeries(MachineTimeseriesType machineTimeseriesType) {

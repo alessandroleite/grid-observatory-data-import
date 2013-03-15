@@ -58,6 +58,13 @@
 			<id>anydoby.com</id>
 			<url>http://anydoby.com/maven</url>
 		</repository>
+		<repository>
+			<id>github-release-repo</id>
+			<url>https://github.com/alessandroleite/maven-repository/raw/master/releases</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -92,11 +99,12 @@
 			<version>${joda-time.version}</version>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.beust</groupId>
 			<artifactId>jcommander</artifactId>
 			<version>${jcommander.version}</version>
+			<scope>compile</scope>
 		</dependency>
 
 		<!-- <dependency> <groupId>nz.ac.waikato.cms.weka</groupId> <artifactId>weka-stable</artifactId> 
@@ -106,21 +114,28 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${spring.version}</version>
+			<scope>compile</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
 			<version>${spring.version}</version>
+			<scope>compile</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
 			<version>${spring.version}</version>
+			<scope>compile</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
 			<version>${spring.version}</version>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
@@ -130,36 +145,52 @@
 			<scope>compile</scope>
 		</dependency>
 
+		<!-- <dependency> <groupId>org.springframework.data</groupId> <artifactId>spring-data-hadoop</artifactId> 
+			<version>${spring-data-hadoop.version}</version> <scope>compile</scope> </dependency> -->
+
 		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-hadoop</artifactId>
-			<version>${spring-data-hadoop.version}</version>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-streaming</artifactId>
+			<version>${org.apache.hadoop.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-tools</artifactId>
+			<version>${org.apache.hadoop.version}</version>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 			<version>${commons-dbcp.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysql-connector.version}</version>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>${aspectjrt.version}</version>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
 			<version>${aspectjweaver.version}</version>
+			<scope>compile</scope>
 		</dependency>
 
+		<!-- Runtime dependencies -->
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-connector.version}</version>
+			<scope>runtime</scope>
+		</dependency>
 
 	</dependencies>
 
@@ -216,7 +247,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.5</version>
-				<inherited>true</inherited>
 				<configuration>
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
@@ -225,7 +255,6 @@
 				<groupId>com.mycila.maven-license-plugin</groupId>
 				<artifactId>maven-license-plugin</artifactId>
 				<version>1.9.0</version>
-				<inherited>true</inherited>
 				<configuration>
 					<header>${license-header-file}</header>
 					<excludes>
@@ -247,7 +276,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>2.4</version>
-				<inherited>true</inherited>
 				<configuration>
 					<archive>
 						<manifest>
@@ -271,7 +299,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.0</version>
-				<inherited>true</inherited>
 				<configuration>
 					<encoding>${project.build.sourceEncoding}</encoding>
 					<source>${source.version}</source>
@@ -284,7 +311,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
 				<version>2.9</version>
-				<inherited>true</inherited>
 				<configuration>
 					<additionalProjectnatures>
 						<projectnature>org.maven.ide.eclipse.maven2Nature</projectnature>
@@ -306,7 +332,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 				<version>2.2.1</version>
-				<inherited>true</inherited>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -341,6 +366,18 @@
 					<autoVersionSubmodules>true</autoVersionSubmodules>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>com.qulice</groupId>
+				<artifactId>qulice-maven-plugin</artifactId>
+				<version>0.2.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 	<properties>
@@ -353,10 +390,10 @@
 		<commons-lang.version>2.6</commons-lang.version>
 		<source.version>1.7</source.version>
 		<license-header-file>header.txt</license-header-file>
-		<lshw.version>0.4-SNAPSHOT</lshw.version>
+		<lshw.version>0.4</lshw.version>
 		<joda-time.version>1.6.2</joda-time.version>
 		<weka.version>3.6.6</weka.version>
-		<spring.version>3.0.5.RELEASE</spring.version>
+		<spring.version>3.2.2.RELEASE</spring.version>
 		<spring-data-hadoop.version>1.0.0.RELEASE</spring-data-hadoop.version>
 		<commons-dbcp.version>1.4</commons-dbcp.version>
 		<mysql-connector.version>5.1.23</mysql-connector.version>
@@ -365,5 +402,8 @@
 		<aspectjweaver.version>1.7.1</aspectjweaver.version>
 		<aspectjtools.version>1.7.1</aspectjtools.version>
 		<jcommander.version>1.17</jcommander.version>
+		<org.apache.hadoop.version>1.0.4</org.apache.hadoop.version>
+
+		<log4j.log.file>/home/alessandro/workspace/grid-observatory-power-analysis/log/log.log</log4j.log.file>
 	</properties>
 </project>

@@ -52,8 +52,7 @@ public final class GcoReportParserJob {
 
 		Job job = new Job(conf, "jobName");
 
-		FileInputFormat.setInputPaths(Objects.requireNonNull(job),
-				Objects.requireNonNull(input));
+		FileInputFormat.setInputPaths(Objects.requireNonNull(job), Objects.requireNonNull(input));
 		job.setJarByClass(GcoReportParserJob.class);
 		job.setMapperClass(GcoReportParserMapper.class);
 		job.setReducerClass(GcoReportParserReducer.class);

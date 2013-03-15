@@ -33,7 +33,7 @@ import org.gridobservatory.greencomputing.xml.types.RoomType;
 import org.gridobservatory.greencomputing.xml.types.SensorType;
 import org.joda.time.DateTime;
 
-public class Room implements Comparable<Room> {
+public final class Room implements Comparable<Room> {
 
 	protected final RoomType roomType;
 

@@ -33,7 +33,7 @@ import org.gridobservatory.greencomputing.xml.types.PropertiesListType;
 import org.gridobservatory.greencomputing.xml.types.SensorType;
 import org.joda.time.DateTime;
 
-public class Machine implements Comparable<Machine> {
+public final class Machine implements Comparable<Machine> {
 
 	private final MachineType machineType;
 

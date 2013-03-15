@@ -22,7 +22,7 @@ import org.gridobservatory.greencomputing.xml.types.MiddlewareType;
 import org.gridobservatory.greencomputing.xml.types.MiddlewareTypeType;
 import org.gridobservatory.greencomputing.xml.types.PropertiesListType;
 
-public class Middleware implements Comparable<Middleware> {
+public final class Middleware implements Comparable<Middleware> {
 
 	protected final MiddlewareType middlewareType;
 

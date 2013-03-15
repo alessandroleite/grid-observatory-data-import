@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.gridobservatory.greencomputing.xml.types.SensorType;
 
-public class Sensors implements Iterable<SensorType> {
+public final class Sensors implements Iterable<SensorType> {
 
 	private final Map<BigInteger, SensorType> sensors = new ConcurrentHashMap<>();
 
