@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,6 +29,7 @@ import java.util.concurrent.Executors;
 
 import org.gridobservatory.greencomputing.xml.types.TimeseriesAcquisitionType;
 import org.gridobservatory.greencomputing.xml.types.TimeseriesType;
+import org.joda.time.DateTime;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
@@ -84,8 +86,8 @@ public abstract class TimeseriesDao<T extends TimeseriesType> extends DaoSupport
 										@Override
 										public void setValues(PreparedStatement ps, int i)throws SQLException {
 											ps.setLong(1, timeSeriesId.longValue());
-											ps.setBigDecimal(2, new BigDecimal(acquisitions.get(i).getTs()));
-											ps.setString(3, acquisitions.get(i).getV());
+											ps.setTimestamp(2, new Timestamp(new DateTime(new BigDecimal(acquisitions.get(i).getTs()).multiply(BigDecimal.valueOf(1000l))).toDate().getTime()));
+											ps.setBigDecimal(3, new BigDecimal(acquisitions.get(i).getV()));
 										}
 
 										@Override
