@@ -14,6 +14,10 @@
 -- limitations under the License.
 --
 
+create database grid_observatory_grif_lal_power;
+
+use grid_observatory_grif_lal_power;
+
 create table sensor(
   sensor_id bigint unsigned not null primary key,
   sensor_name varchar(120) not null,
@@ -117,6 +121,7 @@ create table time_series (
   		join motherboard mb on mb.motherboard_id = m.motherboard_id
   		join middleware mw on mw.middleware_id = m.middleware_id
   	order by m.machine_id
+;  	
 
 create or replace view vw_machine_time_series as
   	select 
@@ -127,7 +132,7 @@ create or replace view vw_machine_time_series as
   		join time_series ts on ts.time_series_id = mts.time_series_id
   		join sensor s on s.sensor_id = mts.sensor_id
   	order by machine_id
-
+;
 
 create or replace view vw_room_time_series as
   	select 
@@ -138,5 +143,4 @@ create or replace view vw_room_time_series as
   		join time_series ts on ts.time_series_id = rts.time_series_id
   		join sensor s on s.sensor_id = rts.sensor_id
   	order by room_id  	
-  	
-  	
+ ;	

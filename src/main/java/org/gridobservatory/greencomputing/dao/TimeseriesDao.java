@@ -29,7 +29,6 @@ import java.util.concurrent.Executors;
 
 import org.gridobservatory.greencomputing.xml.types.TimeseriesAcquisitionType;
 import org.gridobservatory.greencomputing.xml.types.TimeseriesType;
-import org.joda.time.DateTime;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
@@ -86,7 +85,8 @@ public abstract class TimeseriesDao<T extends TimeseriesType> extends DaoSupport
 										@Override
 										public void setValues(PreparedStatement ps, int i)throws SQLException {
 											ps.setLong(1, timeSeriesId.longValue());
-											ps.setTimestamp(2, new Timestamp(new DateTime(new BigDecimal(acquisitions.get(i).getTs()).multiply(BigDecimal.valueOf(1000l))).toDate().getTime()));
+											long dateInMilis = acquisitions.get(i).getTs().multiply(BigInteger.valueOf(1000l)).longValue();
+											ps.setTimestamp(2, new Timestamp(dateInMilis));
 											ps.setBigDecimal(3, new BigDecimal(acquisitions.get(i).getV()));
 										}
 

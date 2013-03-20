@@ -121,7 +121,11 @@ public final class Room implements Comparable<Room> {
 	}
 
 	public DateTime getDateCreated() {
-		return new DateTime(roomType.getDateCreated().longValue() * 1000l);
+		if (roomType.getDateCreated().longValue() > 0) {
+			return new DateTime(roomType.getDateCreated().longValue() * 1000l);
+		} else {
+			return null;
+		}
 	}
 
 	public void setDateCreated(DateTime dateCreated) {

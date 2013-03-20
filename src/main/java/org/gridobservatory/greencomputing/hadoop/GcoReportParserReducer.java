@@ -33,8 +33,9 @@ import org.gridobservatory.greencomputing.xml.types.TimeseriesListType;
 
 public class GcoReportParserReducer extends
 		Reducer<NullWritable, GCOReport, NullWritable, Text> {
-	
-	private static final transient Logger log = Logger.getLogger(GcoReportParserReducer.class.getName());
+
+	private static final transient Logger log = Logger
+			.getLogger(GcoReportParserReducer.class.getName());
 
 	@Override
 	protected void reduce(NullWritable key, Iterable<GCOReport> values,
@@ -48,33 +49,43 @@ public class GcoReportParserReducer extends
 	private void process(GCOReport report) {
 		TimeseriesListType timeseriesList = report.getTimeseriesList();
 
-		List<Object> machineTimeseriesOrRoomTimeseriesOrAcquisitionToolAliveTimeseries = timeseriesList
-				.getMachineTimeseriesOrRoomTimeseriesOrAcquisitionToolAliveTimeseries();
+		if (timeseriesList != null) {
 
-		for (Object obj : machineTimeseriesOrRoomTimeseriesOrAcquisitionToolAliveTimeseries) {
+			List<Object> machineTimeseriesOrRoomTimeseries = timeseriesList
+					.getMachineTimeseriesOrRoomTimeseriesOrAcquisitionToolAliveTimeseries();
 
-			if (obj instanceof MachineTimeseriesType) {
-				machineTimeSeries((MachineTimeseriesType) obj);
-			} else if (obj instanceof AcquisitionToolAliveBinaryTimeseriesType) {
-				binaryTimeseriesType((AcquisitionToolAliveBinaryTimeseriesType) obj);
-			} else if (obj instanceof RoomTimeseriesType) {
-				roomTimeSeries((RoomTimeseriesType) obj);
-			} else {
-				log.debug("Unknown timeseries type " + obj.getClass());
+			if (machineTimeseriesOrRoomTimeseries != null) {
+
+				for (Object obj : machineTimeseriesOrRoomTimeseries) {
+
+					if (obj instanceof MachineTimeseriesType) {
+						machineTimeSeries((MachineTimeseriesType) obj);
+					} else if (obj instanceof AcquisitionToolAliveBinaryTimeseriesType) {
+						binaryTimeseriesType((AcquisitionToolAliveBinaryTimeseriesType) obj);
+					} else if (obj instanceof RoomTimeseriesType) {
+						roomTimeSeries((RoomTimeseriesType) obj);
+					} else {
+						log.debug("Unknown timeseries type " + obj.getClass());
+					}
+				}
 			}
 		}
 	}
 
 	private void binaryTimeseriesType(
 			AcquisitionToolAliveBinaryTimeseriesType obj) {
-		log.debug("Binary timeseries type " + ToStringBuilder.reflectionToString(obj, ToStringStyle.SHORT_PREFIX_STYLE));
+		log.debug("Binary timeseries type "
+				+ ToStringBuilder.reflectionToString(obj,
+						ToStringStyle.SHORT_PREFIX_STYLE));
 	}
 
 	private void machineTimeSeries(MachineTimeseriesType machineTimeseriesType) {
-		RepositoryFactory.getMachineTimeseriesRepository().insert(machineTimeseriesType);
+		RepositoryFactory.getMachineTimeseriesRepository().insert(
+				machineTimeseriesType);
 	}
 
 	private void roomTimeSeries(RoomTimeseriesType roomTimeseriesType) {
-		RepositoryFactory.getRoomTimeseriesRepository().insert(roomTimeseriesType);
+		RepositoryFactory.getRoomTimeseriesRepository().insert(
+				roomTimeseriesType);
 	}
 }

@@ -31,6 +31,7 @@ public class MotherboardDao extends DaoSupport implements MotherboardRepository 
 
 	public void insert(Iterable<Motherboard> motherboards) {
 		for (Motherboard motherboard : motherboards) {
+			try{
 			this.getJdbcTemplate()
 					.update("insert into motherboard (motherboard_id, product_manufacturer, product_name, port_number, "
 							+ " board_serial, board_manufacturing, board_product, manufacturing_date, date_from) "
@@ -44,9 +45,10 @@ public class MotherboardDao extends DaoSupport implements MotherboardRepository 
 							motherboard.getBoardManufacturing(),
 							motherboard.getBoardProduct(),
 							motherboard.getManufacturingDate(),
-							motherboard.getDateFrom() != null ? motherboard
-									.getDateFrom().toDate() : null);
-
+							motherboard.getDateFrom() != null ? motherboard.getDateFrom().toDate() : null);
+			}catch(Exception exception){
+				exception.printStackTrace();
+			}
 		}
 	}
 }

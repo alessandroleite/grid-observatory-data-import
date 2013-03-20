@@ -107,7 +107,11 @@ public final class Motherboard implements Comparable<Motherboard> {
 	}
 
 	public DateTime getDateFrom() {
-		return new DateTime(this.motherboardTypeAdapter.getDateFrom().longValue() * 1000l);
+		if (this.motherboardTypeAdapter.getDateFrom().longValue() > 0) {
+			return new DateTime(this.motherboardTypeAdapter.getDateFrom().longValue() * 1000l);
+		} else {
+			return null;
+		}
 	}
 
 	public void setDateFrom(BigInteger value) {

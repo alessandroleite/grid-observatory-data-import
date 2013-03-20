@@ -31,8 +31,7 @@ public class RoomDao extends DaoSupport implements RoomRepository {
 	public void insert(Iterable<Room> rooms) {
 		for (Room room : rooms) {
 			this.getJdbcTemplate().update(
-					"insert into room (room_id, date_created) values (?,?)",
-					room.getRoomID(), room.getDateCreated().toDate());
+					"insert into room (room_id, date_created) values (?,?)", room.getRoomID(), room.getDateCreated() != null ? room.getDateCreated().toDate() : null);
 		}
 	}
 }

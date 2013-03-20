@@ -43,26 +43,18 @@ public class MachineDao extends DaoSupport implements MachineRepository {
 									throws SQLException {
 								int i = 1;
 								Machine machine = new Machine();
-								machine.setMachineID(rs.getBigDecimal(i++)
-										.toBigIntegerExact());
+								machine.setMachineID(rs.getBigDecimal(i++).toBigIntegerExact());
 
 								machine.setRoom(new Room());
-								machine.getRoom().setRoomID(
-										rs.getBigDecimal(i++)
-												.toBigIntegerExact());
+								machine.getRoom().setRoomID(rs.getBigDecimal(i++).toBigIntegerExact());
 
 								machine.setMotherboard(new Motherboard());
-								machine.getMotherboard().setMotherboardID(
-										rs.getBigDecimal(i++)
-												.toBigIntegerExact());
+								machine.getMotherboard().setMotherboardID(rs.getBigDecimal(i++).toBigIntegerExact());
 
 								machine.setMiddleware(new Middleware());
-								machine.getMiddleware().setMiddlewareID(
-										rs.getBigDecimal(i++)
-												.toBigIntegerExact());
+								machine.getMiddleware().setMiddlewareID(rs.getBigDecimal(i++).toBigIntegerExact());
 
-								machine.setDateCreated(BigInteger.valueOf(rs
-										.getTimestamp(i++).getTime()));
+								machine.setDateCreated(BigInteger.valueOf(rs.getTimestamp(i++).getTime()));
 
 								return machine;
 							}

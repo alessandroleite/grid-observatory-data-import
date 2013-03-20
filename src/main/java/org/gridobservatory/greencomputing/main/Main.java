@@ -18,7 +18,6 @@ package org.gridobservatory.greencomputing.main;
 import java.io.IOException;
 
 import org.gridobservatory.greencomputing.hadoop.job.GcoReportParserJob;
-import org.gridobservatory.greencomputing.repository.RepositoryFactory;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
@@ -32,7 +31,6 @@ public class Main {
 	private String outputPath;
 
 	public void execute() throws IOException {
-		RepositoryFactory.getMachineTimeseriesRepository();
 		GcoReportParserJob job = new GcoReportParserJob();
 		job.runJob(inputPath, outputPath);
 	}
